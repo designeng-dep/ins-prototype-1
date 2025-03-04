@@ -15,30 +15,32 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <Script id="maze-universal-snippet" strategy="afterInteractive" 
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function (m, a, z, e) {
+                var s, t;
+                try {
+                  t = m.sessionStorage.getItem('maze-us');
+                } catch (err) {}
+                if (!t) {
+                  t = new Date().getTime();
+                  try {
+                    m.sessionStorage.setItem('maze-us', t);
+                  } catch (err) {}
+                }
+                s = a.createElement('script');
+                s.src = z + '?apiKey=' + e;
+                s.async = true;
+                a.getElementsByTagName('head')[0].appendChild(s);
+                m.mazeUniversalSnippetApiKey = e;
+              })(window, document, 'https://snippet.maze.co/maze-universal-loader.js', '1278db49-a166-4851-86ef-08730ca33aac');
+            `
+          }}
+        />
+      </head>
       <body>
-        <Script id="maze-tracking" strategy="afterInteractive">
-          {`
-          (function (m, a, z, e) {
-            var s, t;
-            try {
-              t = m.sessionStorage.getItem('maze-us');
-            } catch (err) {}
-          
-            if (!t) {
-              t = new Date().getTime();
-              try {
-                m.sessionStorage.setItem('maze-us', t);
-              } catch (err) {}
-            }
-          
-            s = a.createElement('script');
-            s.src = z + '?apiKey=' + e;
-            s.async = true;
-            a.getElementsByTagName('head')[0].appendChild(s);
-            m.mazeUniversalSnippetApiKey = e;
-          })(window, document, 'https://snippet.maze.co/maze-universal-loader.js', '1278db49-a166-4851-86ef-08730ca33aac');
-          `}
-        </Script>
         {children}
       </body>
     </html>
